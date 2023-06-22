@@ -11,8 +11,9 @@ const res = require("express/lib/response");
 const app = express();
 
 app.set("view engine", "ejs"); // to overcome error in 19th line
+app.use(logger);
 
-app.get("/", (req, res) => {
+app.get("/", logger, (req, res) => {
   console.log("Hello Nandhini");
   //res.sendStatus(500); -- for send status
   //res.status(500).send("HI"); -- for sending msg while the status of the code display
@@ -22,5 +23,12 @@ app.get("/", (req, res) => {
 });
 
 const userRouter = require("./routes/users");
+//const postRouter = require("./routes/posts");
 app.use("/users", userRouter);
+
+function logger(req, rens, next) {
+  console.log(req.originalUrl);
+  next();
+}
+
 app.listen(3000);
